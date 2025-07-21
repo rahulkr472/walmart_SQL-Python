@@ -10,7 +10,7 @@ Walmart Business Problems
 
 ```sq
 select 
-	  payment_method , 
+      payment_method , 
       count(*) as total_transaction, 
       sum(quantity) as total_quantity
 from walmart
@@ -23,9 +23,10 @@ order by 2 desc , 3 desc;
    ● Purpose: This allows Walmart to recognize and promote popular categories in specific branches, enhancing customer satisfaction and branch-specific marketing.
 
 ```sq
-select * from(
+select *
+from (
 select 
-	  branch, 
+      branch, 
       category, 
       avg(rating) as avg_rating,
       dense_rank() over(partition by branch order by avg(rating) desc) as ranking
@@ -40,7 +41,8 @@ where ranking =1;
   ● Purpose: This insight helps in optimizing staffing and inventory management to accommodate peak days.
 
 ```sq
-select * from(
+select *
+from (
 select 
      branch, 
      dayname(date_format(date, '%d-%m-%y')) AS day_name,
@@ -58,7 +60,7 @@ where rn = 1;
 
 ```sq
 select 
-	  payment_method , 
+      payment_method , 
       sum(quantity) as total_quantity
 from walmart
 group by payment_method
@@ -102,7 +104,7 @@ order by 3 desc;
 ```sq
 with cte as
 (select 
-	 branch,
+     branch,
      payment_method,
      count(*) as no_transaction,
      rank() over(partition by branch order by count(*) desc) as rn
@@ -123,11 +125,11 @@ where rn = 1;
 
 ```sq
 select 
-	  branch, 
+      branch, 
       case when hour(time) < 12 then "Morning"
            when  hour(time) between 12 and 17 then "Afternoon"
            else "Evening"
-	  end as shift,
+      end as shift,
       count(*) total_transaction
 from walmart
 group by 1, 2
